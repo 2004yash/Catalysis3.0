@@ -20,6 +20,8 @@ import confetti from 'canvas-confetti';
 import ConfettiHint from './components/ConfettiHint';
 import LaunchOverlay from './components/LaunchOverlay';
 
+import Brochure from './components/Brochure'
+import Rulebook from './components/Rulebook'
 
 const AdminRoute = () => {
   const { isAuthenticated } = useAuth();
@@ -133,9 +135,12 @@ function App() {
               )}
             </>
           } />
-          <Route path="/login" element={<Login />} />
+  
+        <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminRoute />} />
-        </Routes>
+          <Route path="/brochure" element={<Brochure />} />
+        <Route path="/Rulebook" element={<Rulebook />} />
+      </Routes>
       </div>
     </LaunchOverlay>
   );
