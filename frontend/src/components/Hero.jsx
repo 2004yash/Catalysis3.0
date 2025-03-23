@@ -2,31 +2,20 @@ import { ChevronRight, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import '@fontsource/staatliches';
+import { calculateTimeLeft } from '../utils/dateUtils';
 const Chem = "/images/chem.png";
 const Game = "/images/game.png";
 
-
-const calculateTimeLeft = () => {
-  const eventDate = new Date("March 28, 2025 00:00:00").getTime();
-  const now = new Date().getTime();
-  const difference = eventDate - now;
-
-  if (difference < 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-
-  return {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-    minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-    seconds: Math.floor((difference % (1000 * 60)) / 1000),
-  };
-};
+// Event date constant that can be used throughout the application
+export const EVENT_DATE = "March 28, 2025 00:00:00";
 
 export const Hero = () => {
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(EVENT_DATE) || { days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const remaining = calculateTimeLeft(EVENT_DATE);
+      setTimeLeft(remaining || { days: 0, hours: 0, minutes: 0, seconds: 0 });
     }, 1000);
     return () => clearInterval(timer);
   }, []);
