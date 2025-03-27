@@ -18,8 +18,7 @@ import RegClosed from './components/RegClosed'
 import Footer from './components/Footer'
 import confetti from 'canvas-confetti';
 import ConfettiHint from './components/ConfettiHint';
-import LaunchOverlay from './components/LaunchOverlay';
-
+import LaunchPage from './components/LaunchPage';
 import Brochure from './components/Brochure'
 import Rulebook from './components/Rulebook'
 
@@ -53,35 +52,9 @@ function App() {
     return localStorage.getItem('registrationOpen') === 'true' || false;
   });
 
-  // Add inauguration function that can be triggered by HOD
-  const inaugurateWebsite = () => {
-    setIsRevealed(true);
-    localStorage.setItem('siteRevealed', 'true');
-    
-    // Launch grand confetti celebration for inauguration
-    confetti({
-      particleCount: 500,
-      spread: 180,
-      origin: { y: 0.6, x: 0.5 },
-      colors: ['#ff1f53', '#4D21FF', '#ffc247', '#ffffff'],
-      startVelocity: 45,
-      gravity: 1,
-    });
-    
-    // Enable registrations
-    setRegistrationOpen(true);
-    localStorage.setItem('registrationOpen', 'true');
-  };
-
   useEffect(() => {
     const handleKeyDown = (event) => {
-      // Special key combination for HOD to inaugurate (Ctrl+Alt+I)
-      if (event.ctrlKey && event.altKey && event.key === 'i') {
-        event.preventDefault();
-        inaugurateWebsite();
-      }
-      
-      // Keep space for regular confetti
+      // Space for confetti
       if (event.code === 'Space' || event.key === ' ') {
         event.preventDefault();
         
@@ -107,42 +80,46 @@ function App() {
     };
   }, [isRevealed]);
 
+  // Check if the site needs to show the launch page
+  if (!isRevealed) {
+    return <LaunchPage />;
+  }
+
   return (
-    <LaunchOverlay isRevealed={isRevealed} onReveal={inaugurateWebsite}>
-      <div className='bg-[#FFC247]'>
-        {isRevealed && <ConfettiHint />}
-        <Routes>
-          <Route path="/" element={
-            <>
-              <Navbar />
-              <Hero />
-              <About />
-              <Events />
-              <Schedule />
-              <Gallery />
-              <FAQSection />
-              <Contact />
-              <Footer />
-            </>
-          } />
-          <Route path="/register" element={
-            <>
-              <Navbar />
-              {registrationOpen ? (
-                <Register />
-              ) : (
-                <RegClosed />
-              )}
-            </>
-          } />
+    <div className='bg-[#FFC247]'>
+      {isRevealed && <ConfettiHint />}
+      <Routes>
+        <Route path="/" element={
+          <>
+            <Navbar />
+            <Hero />
+            <About />
+            <Events />
+            <Schedule />
+            <Gallery />
+            <FAQSection />
+            <Contact />
+            <Footer />
+          </>
+        } />
+        <Route path="/register" element={
+          <>
+            <Navbar />
+            {registrationOpen ? (
+              <Register />
+            ) : (
+              <RegClosed />
+            )}
+          </>
+        } />
   
         <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminRoute />} />
-          <Route path="/brochure" element={<Brochure />} />
+        <Route path="/admin" element={<AdminRoute />} />
+        <Route path="/brochure" element={<Brochure />} />
         <Route path="/Rulebook" element={<Rulebook />} />
+        <Route path="/launch" element={<LaunchPage />} />
       </Routes>
-      </div>
-    </LaunchOverlay>
+    </div>
   );
 }
 

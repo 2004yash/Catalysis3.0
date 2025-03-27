@@ -23,7 +23,9 @@
     "react-router-dom": "^7.2.0",
     "react-scroll": "^1.9.3",
     "react-toastify": "^11.0.5",
-    "typeface-comic-neue": "^1.1.13"
+    "typeface-comic-neue": "^1.1.13",
+    "react-timer-hook": "^3.0.7",
+    "react-use": "^17.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
